@@ -1,7 +1,8 @@
 #include<stdio.h>
 #include<stdlib.h>
 
-void addPolynomial(int**, int**, int**, int, int, int);
+void multiplyPolynomial(int**, int**, int**, int, int);
+void addPolynomial(int**, int**, int**, int, int);
 void displayPolynomial(int*, int);
 
 int main()
@@ -30,15 +31,17 @@ int main()
     displayPolynomial(arr1, deg1);
     printf("\nPolynomial 2 : ");
     displayPolynomial(arr2, deg2);
-    size_res=((deg1>deg2)?deg1:deg2);
-    addPolynomial(&arr1, &arr2, &res, size_res, deg1, deg2);
-    printf("\nResultant Polynomial : ");
-    displayPolynomial(res, size_res);
+    addPolynomial(&arr1, &arr2, &res,deg1, deg2);
+    printf("\nResultant Polynomial after addition : ");
+    displayPolynomial(res, ((deg1>deg2)?deg1:deg2));
+    multiplyPolynomial(&arr1, &arr2, &res, deg1, deg2);
+    printf("\nResultant Polynomial after multiplication : ");
+    displayPolynomial(res, deg1+deg2);
 }
 
-void addPolynomial(int** arr1, int** arr2, int** res, int size, int deg1, int deg2)
+void addPolynomial(int** arr1, int** arr2, int** res, int deg1, int deg2)
 {
-    printf("\n");
+    int size=((deg1>deg2)?deg1:deg2);
     *res=(int*)malloc(size*sizeof(int));
     for(int i=0; i<size; i++)
     {
@@ -51,35 +54,52 @@ void addPolynomial(int** arr1, int** arr2, int** res, int size, int deg1, int de
     }
 }
 
+void multiplyPolynomial(int** arr1, int** arr2, int** res, int deg1, int deg2)
+{
+    int size=deg1+deg2, i, j, pow;
+    *res=(int*)calloc(size,sizeof(int));
+    for(i=0; i<deg1; i++)
+    {
+        for(j=0; j<deg2; j++)
+        {
+            pow=i+j;
+            (*res)[pow]+=(*arr1)[i]*(*arr2)[j];
+        }
+    }
+}
+
 void displayPolynomial(int* arr, int size)
 {
     int i;
-    for(i=size-2; i>=0; i--)
+    for(i=size-1; i>=0; i--)
     {
         if(arr[i]==0)
             continue;
         if(arr[i]==1)
         {
             if(i==0)
-                printf(" %d + ", arr[i]);
+                printf(" %d ", arr[i]);
             else if(i==1)
-                printf(" %dx + ", arr[i]);
-            else if(i==size-1)
+                printf(" x + ");
+            else if(i==0)
+                printf(" x^%d\n", i);
+            else if(i==1 && arr[0]==0)
                 printf(" %dx^%d\n", arr[i], i);
             else
-                printf(" %dx^%d + ", arr[i], i);
+                printf(" x^%d + ", i);
         }
         else
         {
             if(i==0)
-                printf(" %d + ", arr[i]);
+                printf(" %d ", arr[i]);
             else if(i==1)
                 printf(" %dx + ", arr[i]);
-            else if(i==size-1)
+            else if(i==0)
+                printf(" %dx^%d\n", arr[i], i);
+            else if(i==1 && arr[0]==0)
                 printf(" %dx^%d\n", arr[i], i);
             else
                 printf(" %dx^%d + ", arr[i], i);
         }
     }
-    printf(" %dx^%d\n", arr[i], i);
 }
