@@ -4,14 +4,6 @@ be in sparse representation).
 Calculate and find out whether using triple format for your example is advantageous or not.*/
 
 
-/*0001
-0010
-0100
-
-1000
-0010
-0001
-*/
 #include<stdio.h>
 #include<stdlib.h>
 
@@ -21,7 +13,6 @@ int countNonZeros(int**, int, int);
 void display(int**, int, int);
 void deSparsePrint(int**, int, int, int);
 void add(int**, int**, int***, int, int, int, int);
-void sort(int***, int r, int c);
 
 int main()
 {
@@ -72,8 +63,6 @@ int main()
     {
         int** m1, **m2; 
         int **spars1, **spars2, **spars_res, c1, r1, n1, n2;
-        // int m1[3][4]={{0,0,0,1}, {0,0,1,0},{0,1,0,0}};
-        // int m2[3][4]={{1,0,0,0}, {0,0,1,0},{0,0,0,1}};
         printf("Enter no. of rows and columns for the 2 matrices you want to add. \n");
         scanf("%d%d", &r, &c);
         m1=(int**)malloc(r*sizeof(int*));
@@ -113,45 +102,12 @@ int main()
         display(spars2, n2+1, 3);
         printf("\nAfter addition :\n");
         add(spars1, spars2, &spars_res, n1, n2, r, c);
-        //sort(&spars_res, (n1+n2+1), 3);
         deSparsePrint(spars_res, spars_res[0][2]+1, r, c);
         printf("\nIt's sparse representation :\n");
         display(spars_res, spars_res[0][2]+1, 3);
     }
     return 0;   
 }
-
-// void swap(int*** a, int*** b)
-// {
-//     int* c=**a;
-//     **a=**b;
-//     **b=c;
-// }
-
-// void sort(int*** m, int r, int c)
-// {
-//     int i, j;
-//     for(i=1; i<r-1; i++)
-//     {
-//         for(j=1; j<r-i-1; j++)
-//         {
-//             if((*m)[j][0] > (*m)[j+1][0])
-//             {
-//                 swap(&m[j], &m[j+1]);
-//             }
-//         }
-//     }
-//     for(i=1; i<r-1; i++)
-//     {
-//         for(j=1; j<r-i-1; j++)
-//         {
-//             if((*m)[j][1] > (*m)[j+1][1] && (*m)[j][0] == (*m)[j+1][0])
-//             {
-//                 swap(&m[j], &m[j+1]);
-//             }
-//         }
-//     }
-// }
 
 int countNonZeros(int** arr, int r, int c)
 {
@@ -230,7 +186,7 @@ void deSparsePrint(int** spar, int n, int r, int c)
 
 void add(int** m1, int** m2, int*** res, int n1, int n2, int r, int c)
 {
-    int i, j, x=0, flag;
+    int i, j, x=0;
     (*res)=(int**)malloc((n1+n2+1)*sizeof(int*));
     for(i=0; i<n1+n2+1; i++)
     {
@@ -240,62 +196,21 @@ void add(int** m1, int** m2, int*** res, int n1, int n2, int r, int c)
     (*res)[x][1]=c;
     (*res)[x++][2]=0;
     printf("\n\nkk\n\n");
-    /*for(i=1; i<n1+1; i++)
+    i=1, j=1;
+    while(i<n1+1 && j<n2+1)
     {
-        (*res)[x][0]+=m1[i][0];
-        (*res)[x][1]+=m1[i][1];
-        (*res)[x++][2]+=m1[i][2];
-        (*res)[0][2]++;
-    }
-    for(j=1; j<n2+1; j++)
-    {
-        flag=0;
-        for(i=1; i<n1+1; i++)
+        if(m1[i][0]==m2[j][0])
         {
-            if((*res)[i][0]==m2[j][0] && (*res)[i][1]==m2[j][1])
+            if(m1[i][1]==m2[j][1])
             {
-                (*res)[i][2]+=m2[j][2];
-                flag=1;
+                (*res)[x][0]=m2[j][0];
+                (*res)[x][1]=m2[j][1];
+                (*res)[x++][2]=m1[i][2] + m2[j][2];
+                i++;
+                j++;
+
             }
-        }
-        if(flag==0)
-        {
-            (*res)[x][0]+=m2[j][0];
-            (*res)[x][1]+=m2[j][1];
-            (*res)[x++][2]+=m2[j][2];
-            (*res)[0][2]++;
-        }
-    }*/
-    for(i=1; i<n1+1; )
-    {
-        for(j=1; j<n2+1; )
-        {
-            if(m1[i][0]==m2[j][0])
-            {
-                if(m1[i][1]==m2[j][1])
-                {
-                    (*res)[x][0]=m2[j][0];
-                    (*res)[x][1]=m2[j][1];
-                    (*res)[x++][2]=m1[i][2]+m2[j][2];
-                    i++;
-                    j++;
-                }
-                else if(m1[i][1] > m2[j][1])
-                {
-                    (*res)[x][0]=m2[j][0];
-                    (*res)[x][1]=m2[j][1];
-                    (*res)[x++][2]=m2[j][2];
-                    j++;
-                }
-                else
-                {
-                    (*res)[x][0]=m1[i][0];
-                    (*res)[x][1]=m1[i][1];
-                    (*res)[x++][2]=m1[i][2];
-                    i++;
-                }
-            }
-            else if(m1[i][0] > m2[j][0])
+            else if(m1[i][1] > m2[j][1])
             {
                 (*res)[x][0]=m2[j][0];
                 (*res)[x][1]=m2[j][1];
@@ -310,7 +225,34 @@ void add(int** m1, int** m2, int*** res, int n1, int n2, int r, int c)
                 i++;
             }
         }
+        else if(m1[i][0] > m2[j][0])
+        {
+            (*res)[x][0]=m2[j][0];
+            (*res)[x][1]=m2[j][1];
+            (*res)[x++][2]=m2[j][2];
+            j++;
+        }
+        else
+        {
+            (*res)[x][0]=m1[i][0];
+            (*res)[x][1]=m1[i][1];
+            (*res)[x++][2]=m1[i][2];
+            i++;
+        }
     }
-    printf("\nkk\n");
+    while(i<n1+1)
+    {
+        (*res)[x][0]=m1[i][0];
+        (*res)[x][1]=m1[i][1];
+        (*res)[x++][2]=m1[i][2];
+        i++;
+    }
+    while(j<n2+1)
+    {
+        (*res)[x][0]=m2[j][0];
+        (*res)[x][1]=m2[j][1];
+        (*res)[x++][2]=m2[j][2];
+        j++;
+    }
     (*res)[0][2]=x-1;
 }
