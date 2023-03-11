@@ -3,10 +3,6 @@
 Create three different matrices matrixOne, matrixTwo and result-Matrix, using dynamic memory allocation. 
 Initialize matrixOne and matrixTwo by using rand() or srand() function, limit the values from 0 to 9. Multiply matrixOne 
 and matrixTwo into resultMatrix.
-While execution, open another terminal and use top command to see the usage of memory by the process. Calculate the time 
-taken for the execution of the program.
-Repeat the same exercise for 100,000 x 100,000matrices.
-
 */
 
 

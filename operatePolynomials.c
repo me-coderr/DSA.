@@ -1,3 +1,5 @@
+/*WAP to add and multiply two polynomials using array.*/
+
 #include<stdio.h>
 #include<stdlib.h>
 
