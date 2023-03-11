@@ -16,7 +16,7 @@ void add(int**, int**, int***, int, int, int, int);
 
 int main()
 {
-    /*int** arr, i, j, r, c, nzeros;
+    int** arr, i, j, r, c, nzeros;
     printf("Enter no. of rows and column in matrix : \n");
     scanf("%d%d", &r, &c);
     arr=(int**)malloc(r*sizeof(int*));
@@ -47,13 +47,12 @@ int main()
     {
         printf("\nMatrix not converted since sparse representation isn't advantageous.\n\nThe matrix you entered : \n");
         display(arr, r, c);
-    }*/
+    }
 
     //adding 2 matrix
-    int r, c, i, j;
     printf("\nDo you want to see adding 2 matrices using sparse representation? (y/n)\n");
     char ch;
-    //scanf("%c", &ch);
+    scanf("%c", &ch);
     scanf("%c", &ch);
     if(ch!='y')
     {
