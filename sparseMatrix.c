@@ -1,7 +1,11 @@
-/*WAP to convert a matrix into its sparse representation (triple format). Once represented in sparse format, do not revert back
+/*
+WAP to convert a matrix into its sparse representation (triple format). Once represented in sparse format, do not revert back
 to the matrix format any-more. Manipulate the sparse representation to find the transpose of the matrix (which should also 
 be in sparse representation).
-Calculate and find out whether using triple format for your example is advantageous or not.*/
+Calculate and find out whether using triple format for your example is advantageous or not.
+
+WAP to add two matrices using sparse representation. Manipulation of data should be done in sparse format.
+*/
 
 
 #include<stdio.h>
