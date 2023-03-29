@@ -124,7 +124,7 @@ node* deleteNode(node* head, int val)
 {
     if(head==NULL)
         return NULL;
-    if(head->left==NULL && head->right==NULL)
+    if(head->left==NULL && head->right==NULL && head->data==val)
     {
         free(head);
         return NULL;    

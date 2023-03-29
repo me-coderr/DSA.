@@ -174,6 +174,11 @@ node* deleteNode(node* root, int val)
     {
         return NULL;
     }
+    if(root->right==NULL && root->left==NULL && root->data==val)
+    {
+        free(root);
+        return NULL;
+    }
     if(root->data < val)
         root->right=deleteNode(root->right, val);
     else if(root->data > val)
