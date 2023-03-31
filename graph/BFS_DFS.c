@@ -11,6 +11,7 @@ typedef struct{
 int readFile(FILE*, graph**);
 void printAdjList(graph*, int);
 void BFS(graph*, int);
+void DFS(graph*, int);
 void enque(int**, int, int size);
 int deque(int**, int size);
 int isEmpty(int*);
@@ -18,14 +19,35 @@ int isEmpty(int*);
 int main()
 {
     graph* gr;
-    int size;
+    int size, i;
     FILE* fp;
     fp=fopen("graph/adjacencyMatrix.txt", "r");
     size=readFile(fp, &gr);
     fclose(fp);
-    //printAdjList(gr, size);
+    printAdjList(gr, size);
+    printf("\n\nBFS :\n");
     BFS(gr, size);
+    printf("\n\nDFS :\n");
+    for(i=0; i<size; i++)
+    {
+        gr[i].visited=0;
+    }
+    DFS(gr, 0);
     return 0;
+}
+
+void DFS(graph* gr, int ver)
+{
+    int i;
+    gr[ver].visited=1;
+    printf("\n%d", gr[ver].src);
+    for(i=0; i<gr[ver].deg; i++)
+    {
+        if(gr[gr[ver].adjList[i]].visited==0)
+        {
+            DFS(gr, gr[ver].adjList[i]);
+        }
+    }
 }
 
 void BFS(graph* gr, int size)
@@ -37,7 +59,6 @@ void BFS(graph* gr, int size)
     i=0;
     enque(&queue, gr[i].src, size);
     gr[i].visited=1;
-    printf("\n\nTraversal\n");
     while(!isEmpty(queue))
     {
         int temp=deque(&queue, size);
